@@ -1,0 +1,71 @@
+[package]
+name = "ProcessGhosting"
+version = "0.1.0"
+edition = "2021"
+authors = ["BlackTechX"]
+description = "Process Ghosting technique implementation - Execute PE files from memory without leaving traces on disk"
+documentation = "https://docs.rs/ProcessGhosting"
+readme = "README.md"
+homepage = "https://github.com/BlackTechX011/ProcessGhosting"
+repository = "https://github.com/BlackTechX011/ProcessGhosting"
+license = "MIT"
+keywords = ["windows", "process", "ghosting", "security", "pe"]
+categories = ["os::windows-apis", "development-tools"]
+include = [
+    "src/**/*",
+    "examples/**/*",
+    "Cargo.toml",
+    "README.md",
+    "LICENSE",
+]
+rust-version = "1.70.0"
+
+[lib]
+name = "process_ghosting"
+path = "src/lib.rs"
+crate-type = ["lib", "cdylib", "staticlib"]
+
+[[example]]
+name = "basic_usage"
+path = "examples/basic_usage.rs"
+
+[[example]]
+name = "from_file"
+path = "examples/from_file.rs"
+
+[[example]]
+name = "from_hex"
+path = "examples/from_hex.rs"
+
+[[example]]
+name = "hex_converter"
+path = "examples/hex_converter.rs"
+
+[[example]]
+name = "silent_mode"
+path = "examples/silent_mode.rs"
+
+
+[dependencies]
+winapi = { version = "0.3.9", features = [
+    "winnt",
+    "handleapi",
+    "processthreadsapi",
+    "memoryapi",
+    "fileapi",
+    "libloaderapi",
+    "errhandlingapi",
+    "synchapi",
+    "winbase",
+    "std",
+    "basetsd",
+    "ntdef",
+    "minwindef",
+]}
+
+[badges]
+maintenance = { status = "actively-developed" }
+
+[package.metadata.docs.rs]
+default-target = "x86_64-pc-windows-msvc"
+targets = ["x86_64-pc-windows-msvc", "i686-pc-windows-msvc"]
