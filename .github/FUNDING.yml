@@ -1,0 +1,17 @@
+# GitHub Sponsors configuration
+# https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/displaying-a-sponsor-button
+
+github: [BlackTechX011]  # Replace with your GitHub username
+custom: ['https://buymeacoffee.com/blacktechx']
+
+# Uncomment and add your usernames for other platforms:
+# patreon: your_username
+# open_collective: your_username
+# ko_fi: your_username
+# tidelift: npm/package-name
+# community_bridge: project-name
+# liberapay: your_username
+# issuehunt: your_username
+# otechie: your_username
+# lfx_crowdfunding: project-name
+# custom: ['https://www.paypal.me/your_username', 'https://buymeacoffee.com/your_username']
