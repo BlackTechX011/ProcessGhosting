@@ -1,0 +1,115 @@
+name: Feature Request
+description: Suggest a new feature for ProcessGhosting
+title: "[Feature]: "
+labels: ["enhancement", "feature-request"]
+assignees:
+  - BlackTechX011
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for suggesting a new feature! Please provide detailed information about your request.
+
+  - type: checkboxes
+    id: prerequisites
+    attributes:
+      label: Prerequisites
+      description: Please confirm before submitting
+      options:
+        - label: I have searched existing issues and discussions
+          required: true
+        - label: This feature aligns with the project's security research goals
+          required: true
+
+  - type: dropdown
+    id: feature-type
+    attributes:
+      label: Feature Type
+      description: What type of feature is this?
+      options:
+        - New API method
+        - New architecture support
+        - Performance improvement
+        - Documentation improvement
+        - Developer experience
+        - Example/sample code
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem Statement
+      description: Is your feature request related to a problem? Please describe.
+      placeholder: I'm always frustrated when...
+    validations:
+      required: true
+
+  - type: textarea
+    id: solution
+    attributes:
+      label: Proposed Solution
+      description: Describe the solution you'd like
+      placeholder: A clear and concise description of what you want to happen
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives Considered
+      description: Describe alternatives you've considered
+      placeholder: What other approaches have you thought about?
+
+  - type: textarea
+    id: use-case
+    attributes:
+      label: Use Case
+      description: Describe your use case for this feature
+      placeholder: |
+        How would you use this feature?
+        What problem does it solve for you?
+    validations:
+      required: true
+
+  - type: textarea
+    id: example
+    attributes:
+      label: Example Code
+      description: Show how you envision using this feature
+      render: rust
+      placeholder: |
+        use process_ghosting::NewFeature;
+        
+        fn main() {
+            // Example usage
+        }
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Priority
+      description: How important is this feature to you?
+      options:
+        - Low - Nice to have
+        - Medium - Would improve workflow
+        - High - Blocking or critical need
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: contribution
+    attributes:
+      label: Contribution
+      description: Would you be willing to contribute?
+      options:
+        - label: I would be willing to implement this feature
+        - label: I would be willing to test this feature
+        - label: I would be willing to write documentation
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: Additional Context
+      description: Add any other context or screenshots about the feature request
