@@ -1,0 +1,160 @@
+# GitHub Labels Configuration
+# Use with: gh label create --file .github/labels.yml
+
+# Type Labels
+- name: "bug"
+  description: "Something isn't working"
+  color: "d73a4a"
+
+- name: "enhancement"
+  description: "New feature or request"
+  color: "a2eeef"
+
+- name: "documentation"
+  description: "Improvements or additions to documentation"
+  color: "0075ca"
+
+- name: "question"
+  description: "Further information is requested"
+  color: "d876e3"
+
+- name: "security"
+  description: "Security-related issue"
+  color: "ee0701"
+
+- name: "performance"
+  description: "Performance improvement"
+  color: "0e8a16"
+
+# Priority Labels
+- name: "priority: critical"
+  description: "Critical priority - needs immediate attention"
+  color: "b60205"
+
+- name: "priority: high"
+  description: "High priority"
+  color: "d93f0b"
+
+- name: "priority: medium"
+  description: "Medium priority"
+  color: "fbca04"
+
+- name: "priority: low"
+  description: "Low priority"
+  color: "0e8a16"
+
+# Status Labels
+- name: "status: triage"
+  description: "Needs triage"
+  color: "ededed"
+
+- name: "status: blocked"
+  description: "Blocked by another issue or external factor"
+  color: "d73a4a"
+
+- name: "status: in progress"
+  description: "Currently being worked on"
+  color: "0052cc"
+
+- name: "status: needs review"
+  description: "Needs code review"
+  color: "fbca04"
+
+- name: "status: needs testing"
+  description: "Needs testing"
+  color: "c5def5"
+
+- name: "status: needs info"
+  description: "More information needed"
+  color: "d876e3"
+
+# Component Labels
+- name: "component: core"
+  description: "Core ghosting functionality"
+  color: "5319e7"
+
+- name: "component: api"
+  description: "Public API"
+  color: "5319e7"
+
+- name: "component: ntapi"
+  description: "NT API bindings"
+  color: "5319e7"
+
+- name: "component: examples"
+  description: "Example code"
+  color: "5319e7"
+
+- name: "component: ci/cd"
+  description: "CI/CD and automation"
+  color: "5319e7"
+
+# Architecture Labels
+- name: "arch: x64"
+  description: "x64 (64-bit) specific"
+  color: "bfd4f2"
+
+- name: "arch: x86"
+  description: "x86 (32-bit) specific"
+  color: "bfd4f2"
+
+# Platform Labels
+- name: "platform: windows"
+  description: "Windows-specific"
+  color: "0e8a16"
+
+# Good First Issue / Help Wanted
+- name: "good first issue"
+  description: "Good for newcomers"
+  color: "7057ff"
+
+- name: "help wanted"
+  description: "Extra attention is needed"
+  color: "008672"
+
+# Type of Change
+- name: "breaking change"
+  description: "Introduces breaking changes"
+  color: "d93f0b"
+
+- name: "feature request"
+  description: "New feature request"
+  color: "a2eeef"
+
+- name: "refactor"
+  description: "Code refactoring"
+  color: "fbca04"
+
+- name: "dependencies"
+  description: "Dependency updates"
+  color: "0366d6"
+
+# Resolution Labels
+- name: "wontfix"
+  description: "This will not be worked on"
+  color: "ffffff"
+
+- name: "duplicate"
+  description: "This issue or pull request already exists"
+  color: "cfd3d7"
+
+- name: "invalid"
+  description: "This doesn't seem right"
+  color: "e4e669"
+
+- name: "works as intended"
+  description: "This is the intended behavior"
+  color: "d4c5f9"
+
+# Special Labels
+- name: "vulnerability"
+  description: "Security vulnerability"
+  color: "ee0701"
+
+- name: "needs reproduction"
+  description: "Needs reproduction steps"
+  color: "fef2c0"
+
+- name: "confirmed"
+  description: "Confirmed and reproducible"
+  color: "0e8a16"
