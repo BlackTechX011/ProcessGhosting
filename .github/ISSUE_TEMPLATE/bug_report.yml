@@ -1,0 +1,127 @@
+name: Bug Report
+description: File a bug report to help us improve ProcessGhosting
+title: "[Bug]: "
+labels: ["bug", "triage"]
+assignees:
+  - BlackTechX011
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to fill out this bug report! Please provide as much detail as possible.
+
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Prerequisites
+      description: Please confirm the following before submitting
+      options:
+        - label: I have searched existing issues to ensure this bug hasn't been reported
+          required: true
+        - label: I am using the latest version of ProcessGhosting
+          required: true
+        - label: I am running on Windows
+          required: true
+
+  - type: input
+    id: version
+    attributes:
+      label: Version
+      description: What version of ProcessGhosting are you using?
+      placeholder: e.g., 0.1.0
+    validations:
+      required: true
+
+  - type: dropdown
+    id: architecture
+    attributes:
+      label: Architecture
+      description: What architecture are you targeting?
+      options:
+        - x64 (64-bit)
+        - x86 (32-bit)
+        - Both
+    validations:
+      required: true
+
+  - type: input
+    id: windows-version
+    attributes:
+      label: Windows Version
+      description: What version of Windows are you using?
+      placeholder: e.g., Windows 10 21H2, Windows 11 22H2, Windows Server 2019
+    validations:
+      required: true
+
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: A clear and concise description of the bug
+      placeholder: Tell us what you see!
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected Behavior
+      description: What did you expect to happen?
+      placeholder: What should have happened instead?
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Steps to Reproduce
+      description: Steps to reproduce the behavior
+      placeholder: |
+        1. Load payload with '...'
+        2. Execute with '...'
+        3. See error
+      value: |
+        1. 
+        2. 
+        3. 
+    validations:
+      required: true
+
+  - type: textarea
+    id: code
+    attributes:
+      label: Code Sample
+      description: Please provide a minimal code sample that reproduces the issue
+      render: rust
+      placeholder: |
+        use process_ghosting::GhostingBuilder;
+        
+        fn main() {
+            // Your code here
+        }
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Error Logs
+      description: Please copy and paste any relevant error output
+      render: shell
+      placeholder: Paste error messages here
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: Additional Context
+      description: Add any other context about the problem here (screenshots, payload info, etc.)
+      placeholder: Any additional information that might help
+
+  - type: checkboxes
+    id: security
+    attributes:
+      label: Security
+      description: Security-related information
+      options:
+        - label: This bug has security implications
+          required: false
+        - label: I am using this for authorized testing only
+          required: true
