@@ -5,7 +5,7 @@ edition = "2021"
 authors = ["BlackTechX"]
 description = "Process Ghosting technique implementation - Execute PE files from memory without leaving traces on disk"
 documentation = "https://docs.rs/ProcessGhosting"
-readme = "README.md"
+readme = "../README.md"
 homepage = "https://github.com/BlackTechX011/ProcessGhosting"
 repository = "https://github.com/BlackTechX011/ProcessGhosting"
 license = "MIT"
@@ -15,8 +15,8 @@ include = [
     "src/**/*",
     "examples/**/*",
     "Cargo.toml",
-    "README.md",
-    "LICENSE",
+    "../README.md",
+    "../LICENSE",
 ]
 rust-version = "1.70.0"
 
