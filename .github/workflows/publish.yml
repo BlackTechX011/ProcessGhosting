@@ -35,8 +35,6 @@ jobs:
         id: version
         shell: bash
         run: |
-          # Generate Cargo.lock for cargo pkgid
-          cargo generate-lockfile
           VERSION=$(cargo pkgid | sed 's/.*#//')
           echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
           echo "Publishing version: $VERSION"
