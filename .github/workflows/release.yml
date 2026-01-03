@@ -1,21 +1,133 @@
-name: Publish to crates.io
+name: Release
 
 on:
+  push:
+    tags:
+      - 'v*'
   workflow_dispatch:
     inputs:
-      dry_run:
-        description: 'Dry run only (no publish)'
-        required: false
-        default: true
-        type: boolean
+      version:
+        description: 'Version to release (e.g., 0.1.0)'
+        required: true
+        type: string
 
 env:
   CARGO_TERM_COLOR: always
 
 jobs:
-  publish:
-    name: Publish
+  build-release:
+    name: Build ${{ matrix.target }}
     runs-on: windows-latest
+    defaults:
+      run:
+        working-directory: ./ProcessGhosting
+    strategy:
+      matrix:
+        target:
+          - x86_64-pc-windows-msvc
+          - i686-pc-windows-msvc
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: ${{ matrix.target }}
+
+      - name: Cache
+        uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: ProcessGhosting
+
+      - name: Build release
+        run: cargo build --release --target ${{ matrix.target }}
+
+      - name: Build examples
+        run: cargo build --examples --release --target ${{ matrix.target }}
+
+      - name: Get version
+        id: version
+        shell: bash
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "VERSION=${{ github.event.inputs.version }}" >> $GITHUB_OUTPUT
+          else
+            echo "VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Package
+        shell: pwsh
+        working-directory: ./ProcessGhosting
+        run: |
+          $target = "${{ matrix.target }}"
+          $version = "${{ steps.version.outputs.VERSION }}"
+          $name = "ProcessGhosting-$version-$target"
+          
+          New-Item -ItemType Directory -Path $name -Force
+          
+          # Copy library files
+          Copy-Item "target/$target/release/process_ghosting.dll" "$name/" -ErrorAction SilentlyContinue
+          Copy-Item "target/$target/release/process_ghosting.lib" "$name/" -ErrorAction SilentlyContinue
+          Copy-Item "target/$target/release/process_ghosting.d" "$name/" -ErrorAction SilentlyContinue
+          
+          # Copy examples
+          $examplesDir = "$name/examples"
+          New-Item -ItemType Directory -Path $examplesDir -Force
+          Get-ChildItem "target/$target/release/examples/*.exe" | Copy-Item -Destination $examplesDir -ErrorAction SilentlyContinue
+          
+          # Copy docs
+          Copy-Item "README.md" "$name/" -ErrorAction SilentlyContinue
+          Copy-Item "LICENSE" "$name/" -ErrorAction SilentlyContinue
+          
+          # Create zip
+          Compress-Archive -Path $name -DestinationPath "$name.zip"
+          
+          # Create checksum
+          $hash = (Get-FileHash "$name.zip" -Algorithm SHA256).Hash
+          "$hash  $name.zip" | Out-File -FilePath "$name.zip.sha256" -Encoding utf8
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-${{ matrix.target }}
+          path: |
+            ProcessGhosting/*.zip
+            ProcessGhosting/*.sha256
+
+  publish-github:
+    name: Publish GitHub Release
+    runs-on: ubuntu-latest
+    needs: build-release
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+          pattern: release-*
+          merge-multiple: true
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            artifacts/*.zip
+            artifacts/*.sha256
+          generate_release_notes: true
+          draft: false
+          prerelease: ${{ contains(github.ref, 'alpha') || contains(github.ref, 'beta') || contains(github.ref, 'rc') }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  publish-crates:
+    name: Publish to crates.io
+    runs-on: windows-latest
+    needs: build-release
     defaults:
       run:
         working-directory: ./ProcessGhosting
@@ -31,35 +143,10 @@ jobs:
         with:
           workspaces: ProcessGhosting
 
-      - name: Get version
-        id: version
-        shell: bash
-        run: |
-          # Generate Cargo.lock for cargo pkgid
-          cargo generate-lockfile
-          VERSION=$(cargo pkgid | sed 's/.*#//')
-          echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
-          echo "Publishing version: $VERSION"
-
       - name: Verify package
-        run: |
-          cargo package --list
-          cargo package
+        run: cargo package --list
 
-      - name: Dry run
-        if: ${{ inputs.dry_run }}
-        run: cargo publish --dry-run
-
-      - name: Publish to crates.io
-        if: ${{ !inputs.dry_run }}
+      - name: Publish
         run: cargo publish --token ${{ secrets.CRATES_IO_TOKEN }}
         env:
           CRATES_IO_TOKEN: ${{ secrets.CRATES_IO_TOKEN }}
-
-      - name: Summary
-        run: |
-          echo "## Publish Summary" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "- **Version**: ${{ steps.version.outputs.VERSION }}" >> $GITHUB_STEP_SUMMARY
-          echo "- **Dry Run**: ${{ inputs.dry_run }}" >> $GITHUB_STEP_SUMMARY
-          echo "- **Crate**: [ProcessGhosting](https://crates.io/crates/ProcessGhosting)" >> $GITHUB_STEP_SUMMARY
